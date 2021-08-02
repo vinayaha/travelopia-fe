@@ -67,7 +67,7 @@
 </style>
 
 <script>
-import axios from axios
+import axios from 'axios'
 
 export default {
   name: 'UserForm',
@@ -117,9 +117,9 @@ export default {
          console.log(res)
       })
       .catch(err => { 
-         // error 
+         console.log(err)
     })
-  },
+    },
   }
 }
 </script>
