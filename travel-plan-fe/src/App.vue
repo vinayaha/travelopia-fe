@@ -2,7 +2,8 @@
   <div id="app">
     <div class="container">
       <Header title="Explore the World!" />
-      <UserForm userdata="userdata" />
+      <UserForm @display-data="displayDetails($event)" />
+      <!-- <DisplayUser /> -->
     </div>
   </div>
 </template>
@@ -10,18 +11,26 @@
 <script>
 import Header from './components/header.vue'
 import UserForm from './components/userform.vue'
+// import DisplayUser from './components/displayuser.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
-    UserForm
+    UserForm,
+    // DisplayUser,
   },
 
   data() {
     return {
       userdata: []
     }
+  },
+
+  methods: {
+    displayDetails(e) {
+      console.log("User Data : " + e);
+    },
   },
 
   created() {

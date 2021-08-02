@@ -67,6 +67,8 @@
 </style>
 
 <script>
+import axios from axios
+
 export default {
   name: 'UserForm',
   data: () => ({
@@ -88,17 +90,36 @@ export default {
     countries: ['India', 'Africa', 'Europe'],
     travellers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     checkbox: false,
+    newUser: {}
   }),
 
   methods: {
-    validate () {
+    validate (e) {
       this.$refs.form.validate()
-      console.log("Inside Validate")
+      this.newUser = {
+        name: this.name,
+        email: this.email,
+        country: this.country,
+        travellerCount: this.travellerCount,
+      }
+      console.log("Inside Validate : "  + e)
+      console.log("Inside Validate : "  + this.newUser)
+      this.$emit('display-data', this.newUser)
+      this.submitform(this.newUser);
     },
     reset () {
       this.$refs.form.reset()
       console.log("Inside Reset")
     },
+    submitform(newUser){
+      axios.post('/url', { newUser })
+      .then(res => {
+         console.log(res)
+      })
+      .catch(err => { 
+         // error 
+    })
   },
+  }
 }
 </script>
