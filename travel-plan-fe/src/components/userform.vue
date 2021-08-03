@@ -86,7 +86,7 @@ export default {
     select: null,
     country: '',
     travellersCount: 0,
-    budget: 0,
+    budget: '',
     countries: ['India', 'Africa', 'Europe'],
     travellers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     checkbox: false,
@@ -100,19 +100,20 @@ export default {
         name: this.name,
         email: this.email,
         country: this.country,
-        travellerCount: this.travellerCount,
+        numberOfTravellers: 3, //parseInt(this.travellerCount),
+        budget: parseInt(this.budget)
       }
       console.log("Inside Validate : "  + e)
       console.log("Inside Validate : "  + this.newUser)
       this.$emit('display-data', this.newUser)
-      this.submitform(this.newUser);
+      this.createObject(this.newUser);
     },
     reset () {
       this.$refs.form.reset()
       console.log("Inside Reset")
     },
     submitform(newUser){
-      axios.post('/url', { newUser })
+      axios.post('http://localhost:8080/api/traveller', { newUser })
       .then(res => {
          console.log(res)
       })
@@ -120,6 +121,30 @@ export default {
          console.log(err)
     })
     },
+    createObject(Objects) {
+      const input = Objects;
+      console.log(JSON.stringify(input));
+      return new Promise((resolve, reject) => {
+        fetch(new Request('http://localhost:8080/api/traveller'), {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(input)
+        })
+        .then(resp => {
+          return resp.json();
+        })
+        .then(json =>{
+          resolve(json)
+        })
+        .catch(err => {
+          reject(err);
+        })
+      })
+    }
+
   }
 }
 </script>

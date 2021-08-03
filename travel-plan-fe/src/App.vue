@@ -3,6 +3,9 @@
     <div class="container">
       <Header title="Explore the World!" />
       <UserForm @display-data="displayDetails($event)" />
+      <h3> {{ name }} </h3>
+      <h3> {{ email }} </h3>
+      <h3> {{ country }} </h3>
       <!-- <DisplayUser /> -->
     </div>
   </div>
@@ -23,13 +26,19 @@ export default {
 
   data() {
     return {
-      userdata: []
+      userdata: [],
+      name:'',
+      email: '',
+      country: ''
     }
   },
 
   methods: {
     displayDetails(e) {
       console.log("User Data : " + e);
+      this.name = e.name;
+      this.email = e.email;
+      this.country = e.country;
     },
   },
 
