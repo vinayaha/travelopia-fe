@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div :key="user.email" v-for="user in users">
+        <div :key="user.id" v-for="user in users">
             <User :user="user" />
         </div>
          <button @click="onClick()" :style="{ background: 'black' }" class="btn">

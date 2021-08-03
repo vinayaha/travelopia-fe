@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="container">
-      <Header :title="headerTitle" />
+      <Header :showUser="showUser" :title="headerTitle" />
       <UserForm v-show="showUser" @display-data="displayDetails($event)" />
       <DisplayUser v-show="!showUser" :users="userdata" @btn-click="onBack" />
     </div>
@@ -51,11 +51,12 @@ export default {
   created() {
     this.userdata = [
       {
-      name: "Vinay",
-      email: "vinaya@gmail.com",
-      country: "india",
-      numberOfTravellers: 4,
-      budget: 4000
+        id: 11999,
+        name: "Vinay",
+        email: "vinaya@gmail.com",
+        country: "india",
+        numberOfTravellers: 4,
+        budget: 4000
     }
     ]
   }

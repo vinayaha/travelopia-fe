@@ -110,8 +110,11 @@ export default {
         }
         console.log("Inside Validate : "  + e)
         console.log("Inside Validate : "  + this.newUser)
-        this.$emit('display-data', this.newUser)
-        //this.createObject(this.newUser);
+        this.createObject(this.newUser).then(object => {
+          this.newUser = object;
+          console.log("JSON-Data : " + JSON.stringify(this.newUser));
+          this.$emit('display-data', this.newUser)
+        })
       }
     },
     reset () {
@@ -143,7 +146,8 @@ export default {
           return resp.json();
         })
         .then(json =>{
-          resolve(json)
+          console.log("Response json: " + JSON.stringify(json));
+          resolve(json);
         })
         .catch(err => {
           reject(err);
