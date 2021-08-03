@@ -1,12 +1,9 @@
 <template>
   <div id="app">
     <div class="container">
-      <Header title="Explore the World!" />
-      <UserForm @display-data="displayDetails($event)" />
-      <h3> {{ name }} </h3>
-      <h3> {{ email }} </h3>
-      <h3> {{ country }} </h3>
-      <!-- <DisplayUser /> -->
+      <Header :title="headerTitle" />
+      <UserForm v-show="showUser" @display-data="displayDetails($event)" />
+      <DisplayUser v-show="!showUser" :users="userdata" @btn-click="onBack" />
     </div>
   </div>
 </template>
@@ -14,14 +11,14 @@
 <script>
 import Header from './components/header.vue'
 import UserForm from './components/userform.vue'
-// import DisplayUser from './components/displayuser.vue'
+import DisplayUser from './components/displayuser.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
     UserForm,
-    // DisplayUser,
+    DisplayUser,
   },
 
   data() {
@@ -29,17 +26,26 @@ export default {
       userdata: [],
       name:'',
       email: '',
-      country: ''
+      country: '',
+      user: {},
+      showUser: true,
+      headerTitle: "Explore the World!",
     }
   },
 
   methods: {
-    displayDetails(e) {
-      console.log("User Data : " + e);
-      this.name = e.name;
-      this.email = e.email;
-      this.country = e.country;
+    displayDetails(newUser) {
+      console.log("User Data : " + JSON.stringify(newUser));
+      this.userdata = [...this.userdata, newUser]
+      this.showUser = !this.showUser;
+      this.headerTitle = this.showUser ? "Explore the World!" : "Traveller Details"
+      console.log("User Data :: " + JSON.stringify(this.userdata));
     },
+
+    onBack() {
+      this.showUser = !this.showUser;
+      this.headerTitle = this.showUser ? "Explore the World!" : "Traveller Details"
+    }
   },
 
   created() {
@@ -48,15 +54,8 @@ export default {
       name: "Vinay",
       email: "vinaya@gmail.com",
       country: "india",
-      travellers: 4,
-      budget: "$4000"
-    }, 
-    {
-      name: "Ajay",
-      email: "Ajay@gmail.com",
-      country: "india",
-      travellers: 3,
-      budget: "$3000"
+      numberOfTravellers: 4,
+      budget: 4000
     }
     ]
   }
@@ -81,28 +80,5 @@ body {
   border: 1px solid steelblue;
   padding: 30px;
   border-radius: 5px;
-}
-.btn {
-  display: inline-block;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 15px;
-  font-family: inherit;
-}
-.btn:focus {
-  outline: none;
-}
-.btn:active {
-  transform: scale(0.98);
-}
-.btn-block {
-  display: block;
-  width: 100%;
 }
 </style>

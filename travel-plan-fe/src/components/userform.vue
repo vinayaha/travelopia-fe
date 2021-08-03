@@ -34,12 +34,14 @@
         :rules="[v => !!v || 'traveller count is required']"
         label="Number of travellers?"
         required
+        type="number"
       ></v-select>
 
       <v-text-field
         v-model="budget"
-        label="Budget"
+        label="Budget in $"
         required
+        type="number"
       ></v-text-field>
 
       <v-btn
@@ -48,7 +50,7 @@
         class="mr-4"
         @click="validate"
       >
-        Validate
+        Submit
       </v-btn>
   
       <v-btn
@@ -56,7 +58,7 @@
         class="mr-4"
         @click="reset"
       >
-        Reset Form
+        Reset Details
       </v-btn>
     </v-form>
   </v-app>
@@ -76,7 +78,7 @@ export default {
     name: '',
     nameRules: [
       v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+      v => (v && v.length <= 30) || 'Name must be less than 30 characters',
     ],
     email: '',
     emailRules: [
@@ -88,7 +90,7 @@ export default {
     travellersCount: 0,
     budget: '',
     countries: ['India', 'Africa', 'Europe'],
-    travellers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    travellers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     checkbox: false,
     newUser: {}
   }),
@@ -96,17 +98,21 @@ export default {
   methods: {
     validate (e) {
       this.$refs.form.validate()
-      this.newUser = {
-        name: this.name,
-        email: this.email,
-        country: this.country,
-        numberOfTravellers: 3, //parseInt(this.travellerCount),
-        budget: parseInt(this.budget)
+      if (!this.name && !this.email && !this.country && !this.numberOfTravellers && !this.budget) {
+        alert("Please enter correct details")
+      } else {
+        this.newUser = {
+          name: this.name,
+          email: this.email,
+          country: this.country,
+          numberOfTravellers: parseInt(this.travellersCount),
+          budget: parseInt(this.budget)
+        }
+        console.log("Inside Validate : "  + e)
+        console.log("Inside Validate : "  + this.newUser)
+        this.$emit('display-data', this.newUser)
+        //this.createObject(this.newUser);
       }
-      console.log("Inside Validate : "  + e)
-      console.log("Inside Validate : "  + this.newUser)
-      this.$emit('display-data', this.newUser)
-      this.createObject(this.newUser);
     },
     reset () {
       this.$refs.form.reset()
