@@ -108,33 +108,21 @@ export default {
           numberOfTravellers: parseInt(this.travellersCount),
           budget: parseInt(this.budget)
         }
-        console.log("Inside Validate : "  + e)
-        console.log("Inside Validate : "  + this.newUser)
         this.createObject(this.newUser).then(object => {
           this.newUser = object;
-          console.log("JSON-Data : " + JSON.stringify(this.newUser));
+          console.log("POST JSON-Data : " + JSON.stringify(this.newUser));
           this.$emit('display-data', this.newUser)
         })
       }
     },
     reset () {
       this.$refs.form.reset()
-      console.log("Inside Reset")
-    },
-    submitform(newUser){
-      axios.post('http://localhost:8080/api/traveller', { newUser })
-      .then(res => {
-         console.log(res)
-      })
-      .catch(err => { 
-         console.log(err)
-    })
     },
     createObject(Objects) {
       const input = Objects;
       console.log(JSON.stringify(input));
       return new Promise((resolve, reject) => {
-        fetch(new Request('http://localhost:8080/api/traveller'), {
+        fetch(new Request('http://localhost:8080/traveller-plan/api/traveller'), {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -146,7 +134,6 @@ export default {
           return resp.json();
         })
         .then(json =>{
-          console.log("Response json: " + JSON.stringify(json));
           resolve(json);
         })
         .catch(err => {
